@@ -178,7 +178,7 @@ public class Node {
     }
 
     /** 插入节点后中间节点的更新 */
-    protected void updateInsert(BplusTree tree){
+    private void updateInsert(BplusTree tree){
 
         validate(this, tree);
 
