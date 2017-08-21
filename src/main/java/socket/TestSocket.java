@@ -11,6 +11,7 @@ import java.net.Socket;
 public class TestSocket {
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("www.baidu.com", 80);
+        socket.
         InputStream inputStream = socket.getInputStream();
         byte[] bytes = new byte[512];
         inputStream.read(bytes);

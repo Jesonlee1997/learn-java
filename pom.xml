@@ -6,7 +6,12 @@
 
     <groupId>me.jesonlee</groupId>
     <artifactId>learn-java</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>hadoop</module>
+        <module>networking-graph</module>
+    </modules>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
