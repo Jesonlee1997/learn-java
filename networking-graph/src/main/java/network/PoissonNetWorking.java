@@ -1,4 +1,4 @@
-package bank;
+package network;
 
 /**
  * 基于泊松分布的网络图
@@ -14,25 +14,32 @@ public class PoissonNetWorking extends Networking {
 
     @Override
     public void init() {
-        int[] numbers = getPoissonNumbers(nodes.length / 2);
+        int[] numbers = RandomTool.getOrderedArray(0, nodes.length - 1);
+
+        //获得符合泊松分布的一系列出度，出度个数最多为节点的总数-1
+        int[] poissons = getPoissonNumbers(avg);
+
         for (int i = 0; i < nodes.length; i++) {
-            for (int j = 0; j < numbers[i]; j++) {
-                nodes[i].addOutDegree(nodes[RandomTools.nextInt(nodes.length)]);
+            int[] outDegrees = RandomTool.getRandomArrayFromExist(numbers, poissons[i]);
+
+            for (int outDegree : outDegrees) {
+                nodes[i].addOutDegree(nodes[outDegree]);
             }
         }
     }
 
     /**
      * 获得符合泊松分布的一系列值，这一系列值的数学期望是avg
+     * 注意：在avg过大（> 700） 由于double运算的精度问题无法正常工作
      * @param avg 平均的数学期望
-     * @return
+     * @return 结果数组
      */
     private int[] getPoissonNumbers(int avg) {
-        int[] numbers = new int[nodes.length];
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = getPoissonVariable(avg);
+        int[] res = new int[nodes.length];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = getPoissonVariable(avg) % (nodes.length - 1);
         }
-        return numbers;
+        return res;
     }
 
     private static int getPoissonVariable(double lambda) {
