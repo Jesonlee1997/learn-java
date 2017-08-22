@@ -1,9 +1,8 @@
 package network;
 
 /**
- * 度
  * Created by lijs
- * on 2017/8/19.
+ * on 2017/8/22.
  */
 public class Degree {
     private static final int DEFAULT_WEIGHT = 0;
@@ -17,6 +16,30 @@ public class Degree {
     }
 
     public Degree(int weight) {
+        this.weight = weight;
+    }
+
+    public Node getFrom() {
+        return from;
+    }
+
+    public void setFrom(Node from) {
+        this.from = from;
+    }
+
+    public Node getTo() {
+        return to;
+    }
+
+    public void setTo(Node to) {
+        this.to = to;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 }

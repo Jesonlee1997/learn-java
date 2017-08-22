@@ -1,4 +1,7 @@
-package network;
+package network.implByList;
+
+import network.Networking;
+import network.util.RandomTool;
 
 /**
  * 基于泊松分布的网络图
@@ -7,9 +10,12 @@ package network;
  * on 2017/8/21.
  */
 public class PoissonNetWorking extends Networking {
+    private int avg;
+
 
     public PoissonNetWorking(int nodeNum) {
         super(nodeNum);
+        avg = nodeNum / 2;
     }
 
     @Override
@@ -31,6 +37,7 @@ public class PoissonNetWorking extends Networking {
     /**
      * 获得符合泊松分布的一系列值，这一系列值的数学期望是avg
      * 注意：在avg过大（> 700） 由于double运算的精度问题无法正常工作
+     *
      * @param avg 平均的数学期望
      * @return 结果数组
      */

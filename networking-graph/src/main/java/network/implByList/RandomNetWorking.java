@@ -1,4 +1,7 @@
-package network;
+package network.implByList;
+
+import network.Networking;
+import network.util.RandomTool;
 
 /**
  * Created by lijs
