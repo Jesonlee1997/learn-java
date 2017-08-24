@@ -4,6 +4,8 @@ import network.Degree;
 import network.Networking;
 import network.util.RandomTool;
 
+import java.util.List;
+
 /**
  * Created by lijs
  * on 2017/8/21.
@@ -24,12 +26,12 @@ public class MatrixNetworking extends Networking {
 
     @Override
     public void init() {
-        int[] randoms = getDegreeNumbers();//TODO:通过策略生成
+        int[] randoms = getDegreeNumbers();
         assert randoms != null;
 
         for (int i = 0; i < randoms.length; i++) {
-            int[] degrees = generateDegrees(randoms[i]);//TODO:策略生成
-            assert degrees != null;
+            int[] degrees = generateDegrees(randoms[i]);
+            assert degrees != null && degrees.length == randoms[i];
 
             for (int degree : degrees) {
                 DegreeCell cell;
@@ -37,8 +39,9 @@ public class MatrixNetworking extends Networking {
                     cell = new DegreeCell();
                     matrix[i][degree] = cell;
                 }
-                cell.addDegree(new Degree());
-                nodes[i].addOutDegree(nodes[degree]);
+                Degree thDegree = new Degree();
+                cell.addDegree(thDegree);
+                nodes[i].addOutDegree(nodes[degree], thDegree);
             }
         }
     }
@@ -61,6 +64,22 @@ public class MatrixNetworking extends Networking {
         }
     }
 
+    public List<Degree> getOutDegreesOf(int nodeIndex) {
+        return nodes[nodeIndex].getOutDegrees();
+    }
+
+    public List<Degree> getInDegreesOf(int nodeIndex) {
+        return nodes[nodeIndex].getInDegrees();
+    }
+
+    public List<Degree> getOutDegreesOf(int fromIndex, int toIndex) {
+        return matrix[fromIndex][toIndex].getDegreeList();
+    }
+
+    public List<Degree> getInDegreesOf(int fromIndex, int toIndex) {
+        return matrix[toIndex][fromIndex].getDegreeList();
+    }
+
 
     /**
      * 获得一个int数组，元素的数值范围在0 - node.length * 2之间
@@ -78,8 +97,8 @@ public class MatrixNetworking extends Networking {
         int[] res = new int[size];
         assert size > 1;
 
-        int level0Count = (int) (size * (RandomTool.getRandomOf(40, 70) / 100.0) + 0.5);
-        int level2Count = (int) (size * (RandomTool.getRandomOf(5, 10) / 100.0) + 0.5);
+        int level0Count = (int) (size * (RandomTool.getRandomOf(1, 1) / 100.0) + 0.5);
+        int level2Count = (int) (size * (RandomTool.getRandomOf(70, 70) / 100.0) + 0.5);
         int level1Count = size - level0Count - level2Count;
 
 

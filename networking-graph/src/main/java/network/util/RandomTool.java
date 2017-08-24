@@ -20,6 +20,18 @@ public class RandomTool {
      * @return 随机值
      */
     public static int getRandomOf(int start, int end) {
+        if (start < 0 || end < 0) {
+            throw new IllegalArgumentException("start or end must >= 0");
+        }
+
+        if (start > end) {
+            throw new IllegalArgumentException("start must >= end");
+        }
+
+        if (start == end) {
+            return start;
+        }
+
         return start + nextInt(end - start);
     }
 

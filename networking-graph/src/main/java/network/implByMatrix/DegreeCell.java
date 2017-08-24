@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * matrix中的一个单元格，包含所有的度
+ * matrix中的一个单元格，表示出度
  * Created by lijs
  * on 2017/8/21.
  */
@@ -23,5 +23,9 @@ class DegreeCell {
 
     public int size() {
         return degreeList.size();
+    }
+
+    public List<Degree> getDegreeList() {
+        return degreeList;
     }
 }

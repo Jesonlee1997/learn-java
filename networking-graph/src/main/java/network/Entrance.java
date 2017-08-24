@@ -9,7 +9,7 @@ import network.implByMatrix.MatrixNetworking;
 public class Entrance {
     public static void main(String[] args) {
         //Networking networking = new RandomNetWorking(100);
-        Networking networking = new MatrixNetworking(60);
+        Networking networking = new MatrixNetworking(10);
         networking.init();
         networking.print();
     }
