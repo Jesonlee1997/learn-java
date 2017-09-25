@@ -21,6 +21,8 @@ public enum EasySingleton {
     public abstract void doSomething();
 
     public static void main(String[] args) {
-        INSTANCE.doSomething();
+        EasySingleton singleton = INSTANCE;
+        singleton.doSomething();
+        System.out.println(singleton.getX());
     }
 }

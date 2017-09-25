@@ -35,15 +35,5 @@ public class ConvertVarInt {
         putVarInt(buffer, 16);
         System.out.println();
 
-        /*long start = System.currentTimeMillis();
-        ByteBuffer buf = ByteBuffer.allocate(8);
-        for (int i = 0; i < (1<<28); ++i) {
-            buf.clear();
-            putVarInt(buf, i);
-            buf.flip();
-            if (getVarInt(buf) != i) System.out.println("error");
-        }
-        long end = System.currentTimeMillis();
-        System.out.println("call " + (1<<28) + " times, cost " + (end - start) + " ms");*/
     }
 }

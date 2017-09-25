@@ -1,5 +1,6 @@
 package network;
 
+import lombok.Setter;
 import network.implByList.ListNode;
 
 /**
@@ -10,6 +11,13 @@ import network.implByList.ListNode;
 public abstract class Networking {
 
     protected Node[] nodes;
+
+    public int size() {
+        return nodes.length;
+    }
+
+    @Setter
+    protected NumberGenerateStrategy strategy;
 
     public Networking(int nodeNum) {
         nodes = new ListNode[nodeNum];
