@@ -67,4 +67,14 @@ public class PoissonStrategy implements NumberGenerateStrategy {
         }
         return res;
     }
+
+    public static void main(String[] args) {
+        int sum = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                sum += getPoissonVariable(100);
+            }
+        }
+        System.out.println(sum / (1 * 10));
+    }
 }
