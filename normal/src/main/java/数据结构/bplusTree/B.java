@@ -7,5 +7,5 @@ package 数据结构.bplusTree;
 public interface B<K extends Comparable<K> , V> {
     V get(K key);   //查询
     void remove(K key);    //移除
-    void insertOrUpdate(K key, V obj); //插入或者更新，如果已经存在，就更新，否则插入
+    void put(K key, V obj); //插入或者更新，如果已经存在，就更新，否则插入
 }

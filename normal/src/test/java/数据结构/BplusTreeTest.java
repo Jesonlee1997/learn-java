@@ -21,7 +21,7 @@ public class BplusTreeTest {
     @Test
     public void insertOrUpdate() throws Exception {
         bplusTree = new BplusTree(6);
-        bplusTree.insertOrUpdate(123, "jeson");
+        bplusTree.put(123, "jeson");
     }
 
 }
