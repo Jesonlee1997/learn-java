@@ -1,7 +1,7 @@
 package network;
 
 import network.implByMatrix.MatrixNetworking;
-import network.implByMatrix.PoissonStrategy;
+import network.implByMatrix.PoissonStrategy2;
 
 /**
  * Created by lijs
@@ -10,8 +10,8 @@ import network.implByMatrix.PoissonStrategy;
 public class Entrance {
     public static void main(String[] args) {
         //Networking networking = new RandomNetWorking(100);
-        Networking networking = new MatrixNetworking(50);
-        NumberGenerateStrategy strategy = new PoissonStrategy(networking.size(), networking.size() * 2);
+        Networking networking = new MatrixNetworking(500);
+        NumberGenerateStrategy strategy = new PoissonStrategy2(networking.size(), networking.size() * 2);
 
         networking.setStrategy(strategy);
         networking.init();

@@ -1,7 +1,9 @@
-package network.implByMatrix;
+package com.longwo.econ.interbank.contagion.network.implByMatrix;
 
-import network.NumberGenerateStrategy;
-import network.util.RandomTool;
+
+
+import com.longwo.econ.interbank.contagion.network.NumberGenerateStrategy;
+import com.longwo.econ.interbank.contagion.network.util.RandomTool;
 
 import java.math.BigDecimal;
 
@@ -10,8 +12,13 @@ import java.math.BigDecimal;
  * on 2017/9/24.
  */
 public class PoissonStrategy implements NumberGenerateStrategy {
-    private static final int SCALE = 50;
+    private static final int SCALE = 100;
 
+   /**
+    * 
+    * @param size
+    * @param avg 泊松分布的平均值
+    */
     public PoissonStrategy(int size, int avg) {
         this.size = size;
         this.avg = avg;
@@ -72,7 +79,7 @@ public class PoissonStrategy implements NumberGenerateStrategy {
         int sum = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                sum += getPoissonVariable(100);
+                sum += getPoissonVariable(5);
             }
         }
         System.out.println(sum / (1 * 10));
