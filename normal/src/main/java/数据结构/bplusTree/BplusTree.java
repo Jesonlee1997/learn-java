@@ -21,13 +21,19 @@ import java.util.Random;
  */
 public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
 
-    /** 根节点 */
+    /**
+     * 根节点
+     */
     protected Node<K, V> root;
 
-    /** 阶数，M值 */
+    /**
+     * 阶数，M值
+     */
     protected int order;
 
-    /** 叶子节点的链表头*/
+    /**
+     * 叶子节点的链表头
+     */
     protected Node<K, V> head;
 
     public Node<K, V> getHead() {
@@ -70,7 +76,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
         root.put(key, obj, this);
     }
 
-    public BplusTree(int order){
+    public BplusTree(int order) {
         if (order < 3) {
             System.out.print("order must be greater than 2");
             System.exit(0);
@@ -109,25 +115,39 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
      * on 2017/7/9.
      */
     private static class Node<K extends Comparable<K>, V> {
-        /** 是否为叶子节点 */
+        /**
+         * 是否为叶子节点
+         */
         private boolean isLeaf;
 
-        /** 是否为根节点*/
+        /**
+         * 是否为根节点
+         */
         private boolean isRoot;
 
-        /** 父节点 */
-        private Node<K,V> parent;
+        /**
+         * 父节点
+         */
+        private Node<K, V> parent;
 
-        /** 叶节点的前节点*/
-        private Node<K,V> previous;
+        /**
+         * 叶节点的前节点
+         */
+        private Node<K, V> previous;
 
-        /** 叶节点的后节点*/
-        private Node<K,V> next;
+        /**
+         * 叶节点的后节点
+         */
+        private Node<K, V> next;
 
-        /** 节点的关键字 */
+        /**
+         * 节点的关键字
+         */
         private List<Entry<K, V>> entries;
 
-        /** 子节点 */
+        /**
+         * 子节点
+         */
         private List<Node<K, V>> children;
 
         Node(boolean isLeaf) {
@@ -158,17 +178,17 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                 return null;
 
                 //如果不是叶子节点
-            }else {
+            } else {
                 //如果key小于等于节点最左边的key，沿第一个子节点继续搜索
                 if (key.compareTo(entries.get(0).getKey()) <= 0) {
                     return children.get(0).get(key);
                     //如果key大于节点最右边的key，沿最后一个子节点继续搜索
-                }else if (key.compareTo(entries.get(entries.size()-1).getKey()) >= 0) {
-                    return children.get(children.size()-1).get(key);
+                } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
+                    return children.get(children.size() - 1).get(key);
                     //否则沿比key大的前一个子节点继续搜索
-                }else {
+                } else {
                     for (int i = 0; i < entries.size(); i++) {
-                        if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i+1).getKey().compareTo(key) > 0) {
+                        if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i + 1).getKey().compareTo(key) > 0) {
                             return children.get(i).get(key);
                         }
                     }
@@ -178,11 +198,11 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             return null;
         }
 
-        public void put(K key, V val, BplusTree tree){
+        public void put(K key, V val, BplusTree<K, V> tree) {
             //如果是叶子节点
-            if (isLeaf){
+            if (isLeaf) {
                 //不需要分裂，直接插入或更新
-                if (contains(key) || entries.size() < tree.getOrder()){
+                if (contains(key) || entries.size() < tree.getOrder()) {
                     put(key, val);
                     if (parent != null) {
                         //更新父节点
@@ -190,12 +210,12 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     }
 
                     //需要分裂
-                }else {
+                } else {
                     //分裂成左右两个节点
-                    Node<K,V> left = new Node<K,V>(true);
-                    Node<K,V> right = new Node<K,V>(true);
+                    Node<K, V> left = new Node<K, V>(true);
+                    Node<K, V> right = new Node<K, V>(true);
                     //设置链接
-                    if (previous != null){
+                    if (previous != null) {
                         previous.setNext(left);
                         left.setPrevious(previous);
                     }
@@ -203,7 +223,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                         next.setPrevious(right);
                         right.setNext(next);
                     }
-                    if (previous == null){
+                    if (previous == null) {
                         tree.setHead(left);
                     }
 
@@ -217,10 +237,10 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     int rightSize = (tree.getOrder() + 1) / 2;
                     //复制原节点关键字到分裂出来的新节点
                     put(key, val);
-                    for (int i = 0; i < leftSize; i++){
+                    for (int i = 0; i < leftSize; i++) {
                         left.getEntries().add(entries.get(i));
                     }
-                    for (int i = 0; i < rightSize; i++){
+                    for (int i = 0; i < rightSize; i++) {
                         right.getEntries().add(entries.get(leftSize + i));
                     }
 
@@ -231,7 +251,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                         parent.getChildren().remove(this);
                         left.setParent(parent);
                         right.setParent(parent);
-                        parent.getChildren().add(index,left);
+                        parent.getChildren().add(index, left);
                         parent.getChildren().add(index + 1, right);
                         setEntries(null);
                         setChildren(null);
@@ -240,9 +260,9 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                         parent.updateInsert(tree);
                         setParent(null);
                         //如果是根节点
-                    }else {
+                    } else {
                         isRoot = false;
-                        Node<K,V> parent = new Node<K,V>(false, true);
+                        Node<K, V> parent = new Node<K, V>(false, true);
                         tree.setRoot(parent);
                         left.setParent(parent);
                         right.setParent(parent);
@@ -259,17 +279,17 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                 }
 
                 //如果不是叶子节点
-            }else {
+            } else {
                 //如果key小于等于节点最左边的key，沿第一个子节点继续搜索
                 if (key.compareTo(entries.get(0).getKey()) <= 0) {
                     children.get(0).put(key, val, tree);
                     //如果key大于节点最右边的key，沿最后一个子节点继续搜索
-                }else if (key.compareTo(entries.get(entries.size()-1).getKey()) >= 0) {
-                    children.get(children.size()-1).put(key, val, tree);
+                } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
+                    children.get(children.size() - 1).put(key, val, tree);
                     //否则沿比key大的前一个子节点继续搜索
-                }else {
+                } else {
                     for (int i = 0; i < entries.size(); i++) {
-                        if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i+1).getKey().compareTo(key) > 0) {
+                        if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i + 1).getKey().compareTo(key) > 0) {
                             children.get(i).put(key, val, tree);
                             break;
                         }
@@ -278,26 +298,28 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             }
         }
 
-        /** 插入节点后中间节点的更新 */
-        private void updateInsert(BplusTree tree){
+        /**
+         * 插入节点后中间节点的更新
+         */
+        private void updateInsert(BplusTree tree) {
 
             validate(this, tree);
 
             //如果子节点数超出阶数，则需要分裂该节点
             if (children.size() > tree.getOrder()) {
                 //分裂成左右两个节点
-                Node<K,V> left = new Node<K,V>(false);
-                Node<K,V> right = new Node<K,V>(false);
+                Node<K, V> left = new Node<K, V>(false);
+                Node<K, V> right = new Node<K, V>(false);
                 //左右两个节点关键字长度
                 int leftSize = (tree.getOrder() + 1) / 2 + (tree.getOrder() + 1) % 2;
                 int rightSize = (tree.getOrder() + 1) / 2;
                 //复制子节点到分裂出来的新节点，并更新关键字
-                for (int i = 0; i < leftSize; i++){
+                for (int i = 0; i < leftSize; i++) {
                     left.getChildren().add(children.get(i));
                     left.getEntries().add(new Entry<>(children.get(i).getEntries().get(0).getKey(), null));
                     children.get(i).setParent(left);
                 }
-                for (int i = 0; i < rightSize; i++){
+                for (int i = 0; i < rightSize; i++) {
                     right.getChildren().add(children.get(leftSize + i));
                     right.getEntries().add(new Entry<>(children.get(leftSize + i).getEntries().get(0).getKey(), null));
                     children.get(leftSize + i).setParent(right);
@@ -310,7 +332,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     parent.getChildren().remove(this);
                     left.setParent(parent);
                     right.setParent(parent);
-                    parent.getChildren().add(index,left);
+                    parent.getChildren().add(index, left);
                     parent.getChildren().add(index + 1, right);
                     setEntries(null);
                     setChildren(null);
@@ -319,9 +341,9 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     parent.updateInsert(tree);
                     setParent(null);
                     //如果是根节点
-                }else {
+                } else {
                     isRoot = false;
-                    Node<K,V> parent = new Node<K,V>(false, true);
+                    Node<K, V> parent = new Node<K, V>(false, true);
                     tree.setRoot(parent);
                     left.setParent(parent);
                     right.setParent(parent);
@@ -336,8 +358,10 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             }
         }
 
-        /** 调整节点关键字*/
-        protected void validate(Node<K,V> node, BplusTree tree) {
+        /**
+         * 调整节点关键字
+         */
+        protected void validate(Node<K, V> node, BplusTree tree) {
 
             // 如果关键字个数与子节点个数相同
             if (node.getEntries().size() == node.getChildren().size()) {
@@ -346,14 +370,14 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     if (node.getEntries().get(i).getKey().compareTo(key) != 0) {
                         node.getEntries().remove(i);
                         node.getEntries().add(i, new Entry<>(key, null));
-                        if(!node.isRoot()){
+                        if (!node.isRoot()) {
                             validate(node.getParent(), tree);
                         }
                     }
                 }
                 // 如果子节点数不等于关键字个数但仍大于M / 2并且小于M，并且大于2
             } else if (node.isRoot() && node.getChildren().size() >= 2
-                    ||node.getChildren().size() >= tree.getOrder() / 2
+                    || node.getChildren().size() >= tree.getOrder() / 2
                     && node.getChildren().size() <= tree.getOrder()
                     && node.getChildren().size() >= 2) {
                 node.getEntries().clear();
@@ -367,7 +391,9 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             }
         }
 
-        /** 删除节点后中间节点的更新*/
+        /**
+         * 删除节点后中间节点的更新
+         */
         protected void updateRemove(BplusTree tree) {
 
             validate(this, tree);
@@ -380,7 +406,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                         return;
                         // 否则与子节点合并
                     } else {
-                        Node<K,V> root = children.get(0);
+                        Node<K, V> root = children.get(0);
                         tree.setRoot(root);
                         root.setParent(null);
                         root.setRoot(true);
@@ -392,7 +418,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     int currIdx = parent.getChildren().indexOf(this);
                     int prevIdx = currIdx - 1;
                     int nextIdx = currIdx + 1;
-                    Node<K,V> previous = null, next = null;
+                    Node<K, V> previous = null, next = null;
                     if (prevIdx >= 0) {
                         previous = parent.getChildren().get(prevIdx);
                     }
@@ -406,7 +432,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                             && previous.getChildren().size() > 2) {
                         //前叶子节点末尾节点添加到首位
                         int idx = previous.getChildren().size() - 1;
-                        Node<K,V> borrow = previous.getChildren().get(idx);
+                        Node<K, V> borrow = previous.getChildren().get(idx);
                         previous.getChildren().remove(idx);
                         borrow.setParent(this);
                         children.add(0, borrow);
@@ -419,7 +445,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                             && next.getChildren().size() > tree.getOrder() / 2
                             && next.getChildren().size() > 2) {
                         //后叶子节点首位添加到末尾
-                        Node<K,V> borrow = next.getChildren().get(0);
+                        Node<K, V> borrow = next.getChildren().get(0);
                         next.getChildren().remove(0);
                         borrow.setParent(this);
                         children.add(borrow);
@@ -434,7 +460,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                                 && (previous.getChildren().size() <= tree.getOrder() / 2 || previous.getChildren().size() <= 2)) {
 
                             for (int i = previous.getChildren().size() - 1; i >= 0; i--) {
-                                Node<K,V> child = previous.getChildren().get(i);
+                                Node<K, V> child = previous.getChildren().get(i);
                                 children.add(0, child);
                                 child.setParent(this);
                             }
@@ -450,7 +476,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                                 && (next.getChildren().size() <= tree.getOrder() / 2 || next.getChildren().size() <= 2)) {
 
                             for (int i = 0; i < next.getChildren().size(); i++) {
-                                Node<K,V> child = next.getChildren().get(i);
+                                Node<K, V> child = next.getChildren().get(i);
                                 children.add(child);
                                 child.setParent(this);
                             }
@@ -466,23 +492,23 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             }
         }
 
-        public void remove(K key, BplusTree tree){
+        public void remove(K key, BplusTree tree) {
             //如果是叶子节点
-            if (isLeaf){
+            if (isLeaf) {
 
                 //如果不包含该关键字，则直接返回
-                if (!contains(key)){
+                if (!contains(key)) {
                     return;
                 }
 
                 //如果既是叶子节点又是跟节点，直接删除
                 if (isRoot) {
                     remove(key);
-                }else {
+                } else {
                     //如果关键字数大于M / 2，直接删除
                     if (entries.size() > tree.getOrder() / 2 && entries.size() > 2) {
                         remove(key);
-                    }else {
+                    } else {
                         //如果自身关键字数小于M / 2，并且前节点关键字数大于M / 2，则从其处借补
                         if (previous != null
                                 && previous.getEntries().size() > tree.getOrder() / 2
@@ -495,7 +521,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                             entries.add(0, entry);
                             remove(key);
                             //如果自身关键字数小于M / 2，并且后节点关键字数大于M / 2，则从其处借补
-                        }else if (next != null
+                        } else if (next != null
                                 && next.getEntries().size() > tree.getOrder() / 2
                                 && next.getEntries().size() > 2
                                 && next.getParent() == parent) {
@@ -505,12 +531,12 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                             entries.add(entry);
                             remove(key);
                             //否则需要合并叶子节点
-                        }else {
+                        } else {
                             //同前面节点合并
                             if (previous != null
                                     && (previous.getEntries().size() <= tree.getOrder() / 2 || previous.getEntries().size() <= 2)
                                     && previous.getParent() == parent) {
-                                for (int i = previous.getEntries().size() - 1; i >=0; i--) {
+                                for (int i = previous.getEntries().size() - 1; i >= 0; i--) {
                                     //从末尾开始添加到首位
                                     entries.add(0, previous.getEntries().get(i));
                                 }
@@ -520,20 +546,20 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                                 parent.getChildren().remove(previous);
                                 //更新链表
                                 if (previous.getPrevious() != null) {
-                                    Node<K,V> temp = previous;
+                                    Node<K, V> temp = previous;
                                     temp.getPrevious().setNext(this);
                                     previous = temp.getPrevious();
                                     temp.setPrevious(null);
                                     temp.setNext(null);
-                                }else {
+                                } else {
                                     tree.setHead(this);
                                     previous.setNext(null);
                                     previous = null;
                                 }
                                 //同后面节点合并
-                            }else if(next != null
+                            } else if (next != null
                                     && (next.getEntries().size() <= tree.getOrder() / 2 || next.getEntries().size() <= 2)
-                                    && next.getParent() == parent){
+                                    && next.getParent() == parent) {
                                 for (int i = 0; i < next.getEntries().size(); i++) {
                                     //从首位开始添加到末尾
                                     entries.add(next.getEntries().get(i));
@@ -544,12 +570,12 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                                 parent.getChildren().remove(next);
                                 //更新链表
                                 if (next.getNext() != null) {
-                                    Node<K,V> temp = next;
+                                    Node<K, V> temp = next;
                                     temp.getNext().setPrevious(this);
                                     next = temp.getNext();
                                     temp.setPrevious(null);
                                     temp.setNext(null);
-                                }else {
+                                } else {
                                     next.setPrevious(null);
                                     next = null;
                                 }
@@ -559,17 +585,17 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     parent.updateRemove(tree);
                 }
                 //如果不是叶子节点
-            }else {
+            } else {
                 //如果key小于等于节点最左边的key，沿第一个子节点继续搜索
                 if (key.compareTo(entries.get(0).getKey()) <= 0) {
                     children.get(0).remove(key, tree);
                     //如果key大于节点最右边的key，沿最后一个子节点继续搜索
-                }else if (key.compareTo(entries.get(entries.size()-1).getKey()) >= 0) {
-                    children.get(children.size()-1).remove(key, tree);
+                } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
+                    children.get(children.size() - 1).remove(key, tree);
                     //否则沿比key大的前一个子节点继续搜索
-                }else {
+                } else {
                     for (int i = 0; i < entries.size(); i++) {
-                        if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i+1).getKey().compareTo(key) > 0) {
+                        if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i + 1).getKey().compareTo(key) > 0) {
                             children.get(i).remove(key, tree);
                             break;
                         }
@@ -578,7 +604,9 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             }
         }
 
-        /** 判断当前节点是否包含该关键字*/
+        /**
+         * 判断当前节点是否包含该关键字
+         */
         protected boolean contains(K key) {
             for (Entry<K, V> entry : entries) {
                 if (entry.getKey().compareTo(key) == 0) {
@@ -588,9 +616,11 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             return false;
         }
 
-        /** 插入到当前节点的关键字中*/
-        protected void put(K key, V val){
-            Entry<K,V> entry = new Entry<>(key, val);
+        /**
+         * 插入到当前节点的关键字中
+         */
+        protected void put(K key, V val) {
+            Entry<K, V> entry = new Entry<>(key, val);
             //如果关键字列表长度为0，则直接插入
             if (entries.size() == 0) {
                 entries.add(entry);
@@ -603,13 +633,13 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
                     entries.get(i).setValue(val);
                     return;
                     //否则插入
-                }else if (entries.get(i).getKey().compareTo(key) > 0){
+                } else if (entries.get(i).getKey().compareTo(key) > 0) {
                     //插入到链首
                     if (i == 0) {
                         entries.add(0, entry);
                         return;
                         //插入到中间
-                    }else {
+                    } else {
                         entries.add(i, entry);
                         return;
                     }
@@ -619,8 +649,10 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             entries.add(entries.size(), entry);
         }
 
-        /** 删除节点*/
-        protected void remove(K key){
+        /**
+         * 删除节点
+         */
+        protected void remove(K key) {
             int index = -1;
             for (int i = 0; i < entries.size(); i++) {
                 if (entries.get(i).getKey().compareTo(key) == 0) {
@@ -633,7 +665,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             }
         }
 
-        private Node<K,V> getPrevious() {
+        private Node<K, V> getPrevious() {
             return previous;
         }
 
@@ -641,7 +673,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             this.previous = previous;
         }
 
-        private Node<K,V> getNext() {
+        private Node<K, V> getNext() {
             return next;
         }
 
@@ -657,7 +689,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             this.isLeaf = isLeaf;
         }
 
-        private Node<K,V> getParent() {
+        private Node<K, V> getParent() {
             return parent;
         }
 
@@ -673,7 +705,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             this.entries = entries;
         }
 
-        private List<Node<K,V>> getChildren() {
+        private List<Node<K, V>> getChildren() {
             return children;
         }
 
@@ -689,7 +721,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             this.isRoot = isRoot;
         }
 
-        public String toString(){
+        public String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("isRoot: ");
             sb.append(isRoot);
@@ -698,7 +730,7 @@ public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
             sb.append(isLeaf);
             sb.append(", ");
             sb.append("keys: ");
-            for (Entry entry : entries){
+            for (Entry entry : entries) {
                 sb.append(entry.getKey());
                 sb.append(", ");
             }

@@ -8,7 +8,7 @@ import java.util.TreeMap;
  */
 public class Main {
     public static void main(String[] args) {
-        BplusTree<Integer, String> bplusTree = new BplusTree<>(5);
+        B<Integer, String> bplusTree = new BplusTree<>(5);
         TreeMap<Integer, String> treeMap = new TreeMap<>();
 
         long start = System.currentTimeMillis();
