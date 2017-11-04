@@ -6,10 +6,10 @@ import java.util.Random;
  * Created by lijs
  * on 2017/8/21.
  */
-class RandomTool {
+public class RandomTool {
     private static final Random random = new Random();
 
-    static int nextInt(int bound) {
+    public static int nextInt(int bound) {
         return random.nextInt(bound);
     }
 
@@ -20,7 +20,7 @@ class RandomTool {
      * @param end    最大值
      * @return 数组
      */
-    static int[] getUnrepeateRandoms(int start, int end) {
+    public static int[] getUnrepeateRandoms(int start, int end) {
         int[] res = new int[end - start + 1];
 
         int idx = 0;
@@ -37,7 +37,7 @@ class RandomTool {
      * @param size 随机数数组
      * @return 随机数数组
      */
-    static int[] getRandomArray(int bound, int size) {
+    public static int[] getRandomArray(int bound, int size) {
         int[] res = new int[size];
         for (int i = 0; i < res.length; i++) {
             res[i] = random.nextInt(bound);
@@ -51,7 +51,7 @@ class RandomTool {
      * @param count 需要从该数组中取出的随机数个数
      * @return 结果数组
      */
-    static int[] getRandomArrayFromExist(int[] arr, int count) {
+    public static int[] getRandomArrayFromExist(int[] arr, int count) {
         shuffle(arr);
         int[] res = new int[count];
         System.arraycopy(arr, 0, res, 0, res.length);
@@ -83,7 +83,7 @@ class RandomTool {
             swap(arr, i - 1, random.nextInt(i));
     }
 
-    private static void swap(int[] arr, int i, int j) {
+    public static void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
         arr[i] = arr[j];
         arr[j] = tmp;

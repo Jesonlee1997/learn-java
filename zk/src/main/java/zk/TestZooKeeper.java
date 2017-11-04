@@ -4,7 +4,7 @@ import org.apache.zookeeper.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import util.GetPath;
+import tool.GetPath;
 
 import java.io.IOException;
 import java.util.List;
