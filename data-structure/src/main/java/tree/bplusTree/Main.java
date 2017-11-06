@@ -1,4 +1,4 @@
-package 数据结构.bplusTree;
+package tree.bplusTree;
 
 import java.util.TreeMap;
 

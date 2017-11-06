@@ -61,7 +61,7 @@ public class MergeSort {
     public static void main(String[] args) {
         int[] nums = RandomTool.getRandomArray(Integer.MAX_VALUE, 1000000);
         TimeCounter counter = TimeCounter.start();
-        mergeSort(nums);
+        mergeSortNonRecursive(nums);
         counter.end();
         System.out.println("sorted:" + Check.checkIfSorted(nums));
     }

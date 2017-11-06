@@ -1,4 +1,4 @@
-package 数据结构.bplusTree;
+package tree.bplusTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.Random;
  * 8.所有叶子结点位于同一层；
  * 9、为所有叶子结点增加一个链指针；
  * 10.所有关键字都在叶子结点出现；
- * Created by JesonLee
- * on 2017/7/9.
+ * @author JesonLee
+ * @date  2017/7/9.
  */
 public class BplusTree<K extends Comparable<K>, V> implements B<K, V> {
 

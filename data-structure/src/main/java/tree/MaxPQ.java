@@ -48,15 +48,18 @@ public class MaxPQ<Key extends Comparable<Key>> {
     }
 
     private void swim(int index) {
-        while (!isRoot(index)) {
-            int parent = parent(index);
-            if (pq[index].compareTo(pq[parent]) > 0) {
-                swap(pq, index, parent);
-                index = parent;
-            } else {
-                break;
-            }
+        while (!isRoot(index) && less(parent(index), index)) {
+            exchange(index, parent(index));
+            index = parent(index);
         }
+    }
+
+    private void exchange(int index, int parent) {
+        swap(pq, index, parent);
+    }
+
+    private boolean less(int i, int j) {
+        return pq[i].compareTo(pq[j]) < 0;
     }
 
     private boolean isRoot(int index) {
@@ -72,7 +75,9 @@ public class MaxPQ<Key extends Comparable<Key>> {
             return null;
         }
         Key result = pq[1];
-        del(1);
+        exchange(1, size--);
+        pq[size + 1] = null;
+        sink(1);
         resize();
         return result;
     }
@@ -102,21 +107,9 @@ public class MaxPQ<Key extends Comparable<Key>> {
             if (max == p) {
                 break;
             }
-            swap(pq, max, p);
+            exchange(max, p);
             p = max;
         }
-    }
-
-    private void del(int p) {
-        int max;
-        while (isNotLeaf(p)) {
-            int left = leftChild(p);
-            int right = rightChild(p);
-            max = pq[left].compareTo(pq[right]) > 0 ? left : right;
-            pq[p] = pq[max];
-            p = max;
-        }
-        size--;
     }
 
     private void resize() {
