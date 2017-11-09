@@ -1,4 +1,4 @@
-package tree.btree;
+package datastructure.tree.btree;
 
 /**
  * B Tree的特征

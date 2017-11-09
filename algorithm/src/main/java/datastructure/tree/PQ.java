@@ -1,4 +1,4 @@
-package tree;
+package datastructure.tree;
 
 import static org.apache.commons.lang3.ArrayUtils.swap;
 
