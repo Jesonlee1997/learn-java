@@ -15,7 +15,6 @@
         <module>zk</module>
         <module>normal</module>
         <module>rocketMQ</module>
-        <module>data-structure</module>
         <module>algorithm</module>
     </modules>
     <dependencyManagement>
