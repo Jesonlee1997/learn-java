@@ -1,4 +1,4 @@
-package tree.skiplist;
+package datastructure.tree.skiplist;
 
 /**
  * Created by JesonLee

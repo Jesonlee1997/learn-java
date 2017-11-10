@@ -1,4 +1,4 @@
-package tree.bplusTree;
+package datastructure.tree.bplusTree;
 
 /**
  * Created by JesonLee

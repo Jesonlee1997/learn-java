@@ -1,4 +1,4 @@
-package tree.bplusTree;
+package datastructure.tree.bplusTree;
 
 import java.util.ArrayList;
 import java.util.List;
