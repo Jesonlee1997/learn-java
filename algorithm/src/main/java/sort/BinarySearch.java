@@ -6,8 +6,15 @@ package sort;
  */
 public class BinarySearch {
     public static int search(int[] nums, int p) {
-        int lo = 0;
-        int hi = nums.length - 1;
+        return search(nums, p, 0, nums.length - 1);
+    }
+
+    public static int search(int[] nums, int p, int start, int end) {
+        if (end < start) {
+            throw new RuntimeException("End must bigger than start！ start:" + start + " end:" + end);
+        }
+        int lo = start;
+        int hi = end;
 
         while (lo <= hi) {
             int mid = (lo + hi) / 2;
